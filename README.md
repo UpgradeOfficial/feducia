@@ -7,9 +7,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/UpgradeOfficial/feducia">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+  <a href="https://github.com/UpgradeOfficial/feducia">
+    <img src="static/test_coverage.png" alt="Logo" width="80" height="80">
+  </a>
+  <a href="https://github.com/UpgradeOfficial/feducia">
+    <img src="static/feducia_homepage.png" alt="Logo" width="80" height="80">
+  </a>
 
   <h3 align="center">Feducia</h3>
 
@@ -253,4 +256,4 @@ Special acknolegment to the following people/company/organisation:
 [license-url]: https://github.com/UpgradeOfficial/feducia/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/odeyemi-increase/
-[product-screenshot]: media/github_images/project_preview.png
+[product-screenshot]: static/feducia_homepage.png

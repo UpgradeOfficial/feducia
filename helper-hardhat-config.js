@@ -6,6 +6,11 @@ const networkConfig = {
     },
     5: {
         name: "goerli",
+        mumbaiUsdPriceFeed: null
+    },
+    80001: {
+        name: "mumbai-testnet",
+        mumbaiUsdPriceFeed: "0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada"
     },
 }
 
@@ -27,9 +32,13 @@ const frontEndAbiFile = path.join(
     "utils",
     "abi.json"
 )
+const DECIMALS = 8
+const INITIAL_ANSWER = 2 * 10 **8
 module.exports = {
     networkConfig,
     developmentChains,
     frontEndAbiFile,
     frontEndContractsFile,
+    DECIMALS,
+    INITIAL_ANSWER
 }

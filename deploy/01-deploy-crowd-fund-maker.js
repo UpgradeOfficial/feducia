@@ -4,12 +4,20 @@ const { verify } = require("../utils/verify")
 const fs = require("fs")
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    const { deploy, log } = deployments
+    const { deploy, log, get } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
+    let mumbaiUsdPriceFeedAddress
+    if (developmentChains.includes(network.name)) {
+        const mumbaiUsdAggregator = await get("MockV3Aggregator")
+        mumbaiUsdPriceFeedAddress = mumbaiUsdAggregator.address
+        console.log("mumbia: ", mumbaiUsdPriceFeedAddress)
+    } else {
+        mumbaiUsdPriceFeedAddress = networkConfig[chainId]["mumbaiUsdPriceFeed"]
+    }
      
     log("----------------------------------------------------")
-    const args = []
+    const args = [mumbaiUsdPriceFeedAddress]
     const crowdFundMaker = await deploy("CrowdFundContract", {
         from: deployer,
         args: args,

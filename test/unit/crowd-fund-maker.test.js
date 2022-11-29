@@ -3,7 +3,7 @@
 const { assert, expect } = require("chai")
 const { network, deployments, ethers } = require("hardhat")
 const { Contract } = require("hardhat/internal/hardhat-network/stack-traces/model")
-const { developmentChains } = require("../../helper-hardhat-config")
+const { developmentChains, INITIAL_ANSWER } = require("../../helper-hardhat-config")
 const { moveBlocks } = require("../../utils/move-blocks")
 const { moveTime } = require("../../utils/move-time")
 
@@ -29,6 +29,7 @@ const { moveTime } = require("../../utils/move-time")
               account_holder_2 = accounts[2]
               await deployments.fixture(["all"])
               crowdFund = await ethers.getContract("CrowdFundContract")
+              mockV3Aggregator = await ethers.getContract("MockV3Aggregator")
               start_date = new Date()
               // start date is one day ahead of the curren time
               start_date.setDate(start_date.getDate() + 1)
@@ -49,45 +50,62 @@ const { moveTime } = require("../../utils/move-time")
               await moveBlocks(5)
               pledged_amount = ethers.utils.parseEther("1")
           })
+          describe("constructor", async function () {
+              it("Sets the aggregator address correctly", async function () {
+                  const response = await crowdFund.getPriceFeed()
+                  assert.equal(response, mockV3Aggregator.address)
+              })
+              it("set the owner correctly", async function () {
+                  const response = await crowdFund.getOwner()
+                  assert.equal(response, deployer.address)
+              })
+          })
+          describe("Price Feed", async function () {
+              it("Get the price of mumbai in dollars", async function () {
+                  const response = await crowdFund.getLatestPrice()
+                  assert.equal(response.toString(), String(INITIAL_ANSWER))
+              })
+              it("get the number of decimals", async function () {
+                  const response = await crowdFund.decimals()
+                  assert.equal(response.toString(),"8")
+              })
+          })
           describe("MaxDuration and MinimumWithdrawalDuration", () => {
-            it("set Max duration ", async function () {
-                await crowdFund.setMaxDuration(1000)
-                const maxDuration =await crowdFund.getMaxDuration()
-                assert.equal(maxDuration.toString(), "1000")
-            })
-            it("set Max duration from non owner of contract", async function () {
-                await expect(
-                    crowdFund.connect(account_holder_1).setMaxDuration(1000)
-                ).to.be.revertedWith("CrowdFundContract_NotContractOwner()")
-            })
-            it("set Minimum Withdrawal Duration ", async function () {
-                await crowdFund.setMinimumWithdrawalDuration(1000)
-                const maxDuration =await crowdFund.getMinimumWithdrawalDuration()
-                assert.equal(maxDuration.toString(), "1000")
-            })
-            it("set Minimum Withdrawal Duration from non owner of contract", async function () {
-                await expect(
-                    crowdFund.connect(account_holder_1).setMinimumWithdrawalDuration(1000)
-                ).to.be.revertedWith("CrowdFundContract_NotContractOwner()")
-            })
-            
-            
-            it("get pledge amount of an address ", async function () {
-                const pledge_deployer = await crowdFund.getPledgeAmount(1, deployer.address)
-                assert.equal(pledge_deployer.toString(), "0")
-            })
-            it("call a function that doesnt exist ", async function () {
-                // const pledge_deployer = await crowdFund.nonExist(1, deployer.address)
-                //assert.equal(pledge_deployer.toString(), "0")
-                const tx = deployer.sendTransaction({
-                    to: crowdFund.address,
-                    data: "0x1234",
-                });
-                await expect(tx)
-                    .to.emit(crowdFund, 'Error')
-                    .withArgs(deployer.address, 0)
-            })
-        })
+              it("set Max duration ", async function () {
+                  await crowdFund.setMaxDuration(1000)
+                  const maxDuration = await crowdFund.getMaxDuration()
+                  assert.equal(maxDuration.toString(), "1000")
+              })
+              it("set Max duration from non owner of contract", async function () {
+                  await expect(
+                      crowdFund.connect(account_holder_1).setMaxDuration(1000)
+                  ).to.be.revertedWith("CrowdFundContract_NotContractOwner()")
+              })
+              it("set Minimum Withdrawal Duration ", async function () {
+                  await crowdFund.setMinimumWithdrawalDuration(1000)
+                  const maxDuration = await crowdFund.getMinimumWithdrawalDuration()
+                  assert.equal(maxDuration.toString(), "1000")
+              })
+              it("set Minimum Withdrawal Duration from non owner of contract", async function () {
+                  await expect(
+                      crowdFund.connect(account_holder_1).setMinimumWithdrawalDuration(1000)
+                  ).to.be.revertedWith("CrowdFundContract_NotContractOwner()")
+              })
+
+              it("get pledge amount of an address ", async function () {
+                  const pledge_deployer = await crowdFund.getPledgeAmount(1, deployer.address)
+                  assert.equal(pledge_deployer.toString(), "0")
+              })
+              it("call a function that doesnt exist ", async function () {
+                  // const pledge_deployer = await crowdFund.nonExist(1, deployer.address)
+                  //assert.equal(pledge_deployer.toString(), "0")
+                  const tx = deployer.sendTransaction({
+                      to: crowdFund.address,
+                      data: "0x1234",
+                  })
+                  await expect(tx).to.emit(crowdFund, "Error").withArgs(deployer.address, 0)
+              })
+          })
           describe("Launch", () => {
               it("create a new campaign", async function () {
                   await crowdFund.launch(data.name, data.goal, data.startAt, data.endAt)
@@ -189,50 +207,49 @@ const { moveTime } = require("../../utils/move-time")
               })
           })
           describe("unpledge", () => {
-            it("unPledge to a campaign", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await crowdFund.pledge(1, { value: pledged_amount })
-                const pledge_amount_before_unpledge = await crowdFund.getPledgeAmountSender(1)
-                await crowdFund.unpledge(1, pledged_amount)
-                const pledge_amount_after_unpledge = await crowdFund.getPledgeAmountSender(1)
+              it("unPledge to a campaign", async function () {
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  const pledge_amount_before_unpledge = await crowdFund.getPledgeAmountSender(1)
+                  await crowdFund.unpledge(1, pledged_amount)
+                  const pledge_amount_after_unpledge = await crowdFund.getPledgeAmountSender(1)
 
-                assert.equal(pledge_amount_before_unpledge.toString(), String(2*pledged_amount))
-                assert.equal(pledge_amount_after_unpledge.toString(), String(pledged_amount))
-            })
+                  assert.equal(pledge_amount_before_unpledge.toString(), String(2 * pledged_amount))
+                  assert.equal(pledge_amount_after_unpledge.toString(), String(pledged_amount))
+              })
 
-            it("UnPledge to a campaign should emit an event", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await expect(crowdFund.unpledge(1, pledged_amount)
-                )
-                    .to.emit(crowdFund, "Unpledge")
-                    .withArgs(1, deployer.address, pledged_amount)
-            })
+              it("UnPledge to a campaign should emit an event", async function () {
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await expect(crowdFund.unpledge(1, pledged_amount))
+                      .to.emit(crowdFund, "Unpledge")
+                      .withArgs(1, deployer.address, pledged_amount)
+              })
 
-            it("unPledge to a campaign that has ended", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await crowdFund.pledge(1, { value: pledged_amount })
-                moveTime(4*amount_to_move_time)
-                await expect(crowdFund.unpledge(1, pledged_amount)).to.be.revertedWith(
-                    "CrowdFundContract_CampaignEnded()"
-                )
-            })
-            it("unPledge to a campaign with sum greater than deposit", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await crowdFund.pledge(1, { value: pledged_amount })
-                await expect(crowdFund.unpledge(1, ethers.utils.parseUnits("5", 18))).to.be.revertedWith(
-                    "CrowdFundContract_WithdrawalGreaterThanYourPledge()"
-                )
-            })
-        })
+              it("unPledge to a campaign that has ended", async function () {
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  moveTime(4 * amount_to_move_time)
+                  await expect(crowdFund.unpledge(1, pledged_amount)).to.be.revertedWith(
+                      "CrowdFundContract_CampaignEnded()"
+                  )
+              })
+              it("unPledge to a campaign with sum greater than deposit", async function () {
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await crowdFund.pledge(1, { value: pledged_amount })
+                  await expect(
+                      crowdFund.unpledge(1, ethers.utils.parseUnits("5", 18))
+                  ).to.be.revertedWith("CrowdFundContract_WithdrawalGreaterThanYourPledge()")
+              })
+          })
           describe("pledge", () => {
               it("Pledge to a campaign", async function () {
                   const amount_to_move_time = 60 * 60 * 24 + 20
@@ -282,35 +299,32 @@ const { moveTime } = require("../../utils/move-time")
                   await expect(crowdFund.cancel(1)).to.emit(crowdFund, "Cancel").withArgs(1)
               })
               it("cancel a campaign that has ended", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                  moveTime(10*amount_to_move_time)
-                await expect(crowdFund.cancel(1)).to.be.revertedWith(
-                    "CrowdFundContract_CampaignEnded()"
-                )
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(10 * amount_to_move_time)
+                  await expect(crowdFund.cancel(1)).to.be.revertedWith(
+                      "CrowdFundContract_CampaignEnded()"
+                  )
               })
               it("cancel a campaign that has ended", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                await expect(crowdFund.connect(account_holder_1).cancel(1)).to.be.revertedWith(
-                    "CrowdFundContract_NotCampaignOwner()"
-                )
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  await expect(crowdFund.connect(account_holder_1).cancel(1)).to.be.revertedWith(
+                      "CrowdFundContract_NotCampaignOwner()"
+                  )
               })
-
-              
           })
           describe("Claim", () => {
-            it("claim campaign fund that has not reach the minimum claim period", async function () {
-                const amount_to_move_time = 60 * 60 * 24 + 20
-                moveTime(amount_to_move_time)
-                const before_deployer = Number(await deployer.getBalance())
-                await crowdFund.connect(account_holder_1).pledge(1, { value: pledged_amount })
-                await crowdFund.connect(account_holder_2).pledge(1, { value: pledged_amount })
-                await moveTime(amount_to_move_time)
-                const transactionResponse = await 
-                await expect(crowdFund.claim(1)).to.be.revertedWith(
-                    `CrowdFundContract_CampaignWithdrawalDateNotReached()`
-                )
-            })
+              it("claim campaign fund that has not reach the minimum claim period", async function () {
+                  const amount_to_move_time = 60 * 60 * 24 + 20
+                  moveTime(amount_to_move_time)
+                  const before_deployer = Number(await deployer.getBalance())
+                  await crowdFund.connect(account_holder_1).pledge(1, { value: pledged_amount })
+                  await crowdFund.connect(account_holder_2).pledge(1, { value: pledged_amount })
+                  await moveTime(amount_to_move_time)
+                  const transactionResponse = await await expect(
+                      crowdFund.claim(1)
+                  ).to.be.revertedWith(`CrowdFundContract_CampaignWithdrawalDateNotReached()`)
+              })
               it("claim campaign fund", async function () {
                   const amount_to_move_time = 60 * 60 * 24 + 20
                   moveTime(amount_to_move_time)

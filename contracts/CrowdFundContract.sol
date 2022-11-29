@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "hardhat/console.sol";
 import "./CrowdFundErrors.sol";
 
@@ -13,6 +14,7 @@ import "./CrowdFundErrors.sol";
  * @dev Use Hardhat and this is create for the Polygon Hackathon
  */
 contract CrowdFundContract {
+    
     /////////////
     // Events //
     ////////////////////////////////////////////////////////////
@@ -59,12 +61,14 @@ contract CrowdFundContract {
     mapping(uint256 => Campaign) public campaigns;
     mapping(uint256 => mapping(address => uint256)) public pledgedAmount;
     address private /* immutable */ i_owner;
+    AggregatorV3Interface private s_priceFeed;    
 
     ////////////////////////
     // Special Functions //
     ////////////////////////////////////////////////////////////
-    constructor() {
+    constructor(address priceFeedAddress) {
         i_owner = msg.sender;
+        s_priceFeed = AggregatorV3Interface(priceFeedAddress);
     }
 
     fallback() external payable {
@@ -263,6 +267,40 @@ contract CrowdFundContract {
         )
     {
         return pledgedAmount[_id][_account];
+    }
+
+
+    /**
+     * Returns the latest price
+     */
+    function getLatestPrice() public view returns (int) {
+        (
+            ,
+            /*uint80 roundID*/ int price /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/,
+            ,
+            ,
+
+        ) = s_priceFeed.latestRoundData();
+        return price;
+    }
+    /**
+     * Returns the latest price
+     */
+    function decimals() public view returns (uint) {
+        uint decimal_place = s_priceFeed.decimals();
+        return decimal_place;
+    }
+
+     /**
+     * @notice Returns the Price Feed address
+     *
+     * @return Price Feed address
+     */
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return s_priceFeed;
+    }
+    function getOwner() public view returns (address) {
+        return i_owner;
     }
 
     /**

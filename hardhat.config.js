@@ -27,13 +27,13 @@ module.exports = {
             chainId: 31337,
             // gasPrice: 130000000000,
         },
-        // goerli: {
-        //     url: GOERLI_RPC_URL,
-        //     accounts: [PRIVATE_KEY],
-        //     chainId: 5,
-        //     blockConfirmations: 6,
-        // },
-        // mainnet: {
+        goerli: {
+            url: GOERLI_RPC_URL,
+            accounts: [PRIVATE_KEY],
+            chainId: 5,
+            blockConfirmations: 6,
+        },
+        // eth_mainnet: {
         //     url: MAINNET_RPC_URL,
         //     accounts: [PRIVATE_KEY],
         //     chainId: 1,
