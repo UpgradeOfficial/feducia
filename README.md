@@ -22,7 +22,7 @@
     <a href="https://github.com/UpgradeOfficial/feducia"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://chuusebank.pythonanywhere.com/swagger/">View Demo</a>
+    <a href="https://feducia.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/UpgradeOfficial/feducia/issues">Report Bug</a>
     ·
@@ -60,7 +60,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://chuusebank.pythonanywhere.com/swagger/)
+[![Product Name Screen Shot][product-screenshot]](https://feducia.vercel.app/)
 
 This is an open source project on building a CrowdFunding DAPP. Open source is very important and I am happy to support anything open source. I also created this project as part of the requirement of the Polygon Hackathon. The reason why this project is very meaningful and sparked something in me are:
 
@@ -88,6 +88,7 @@ This project was built with the following technologies( as of the time of the la
 - [Polygon](https://polygon.technology/)
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [Firebase](https://firebase.google.com/docs)
+- [Chainlink](https://docs.chain.link/)
 
 
 
@@ -145,6 +146,11 @@ UPDATE_FRONT_END=<true/false>
 ```bash
 yarn hardhat deploy --network <name_of_network>
 ```
+- Test the Dapp which has a test coverage of more than 95%
+
+```bash
+yarn hardhat test --network <name_of_network>
+```
 
 ## Interact with the contract
 
@@ -170,9 +176,10 @@ Note: Other functions/task can be seen in the tasks Folder of the contract
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+This app can be used and intaract in various ways 
+- It can be used via <a href="https://mumbai.polygonscan.com/address/0x57504F6E94B82FC9035778a0cbd71BeE59B9DF95#code">etherscan</a>
+- It can be used via the <a href="https://feducia.vercel.app/">react app</a>
+- Download the project and run the tasks to interact with contract
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -185,7 +192,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [x] Test The Contract
 - [x] Create Task to interact with the contract
 - [x] Deploy the contract
-- [ ] Creat a frontend for the contract
+- [x] Creat a frontend for the contract
   
 
 See the [open issues](https://github.com/UpgradeOfficial/feducia/issues) for a full list of proposed features (and known issues).
