@@ -1,7 +1,7 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
 //yarn hardhat testContractValues --network localhost
-task("testContractValues", "get the names associated with a particular address")
+task("testContractValues", "This is a test function I used to test random things in the contract (do with it as you wish )")
 
 .setAction(async (taskArgs) => {
     const address = require(`../deployments/${network.name}/TestContract.json`).address

@@ -23,6 +23,8 @@
     <br />
     <br />
     <a href="https://feducia.vercel.app/">View Demo</a>
+    .
+    <a href="https://github.com/UpgradeOfficial/feducia-frontend">Frontend Repo</a>
     ·
     <a href="https://github.com/UpgradeOfficial/feducia/issues">Report Bug</a>
     ·
@@ -62,7 +64,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://feducia.vercel.app/)
 
-This is an open source project on building a CrowdFunding DAPP. Open source is very important and I am happy to support anything open source. I also created this project as part of the requirement of the Polygon Hackathon. The reason why this project is very meaningful and sparked something in me are:
+Every idea's at one point in time will need to be funded. The need to making access funds and financial aid trouble-free has been the driving force for this project (<strong>FEDUCIA</strong>). We strive to make funding facile, transparent and accessible to anyone and everyone. We are dedicated to the principles of transparency, trust and security and have made the DApp in a way that this principles are meticulously coded into the protocol. We want to make sure that ideas become a reality and will try to make sure we play a role in securing both the interest of the funders and creator. Here are some reason why FEDUCIA should be you no. 1 DApp to access funding for your next project and also contribute to it success:
 
 
 - IT A GOOD WAY TO TEST PUBLIC ACCEPTANCE OF AN IDEA
@@ -74,7 +76,7 @@ This is an open source project on building a CrowdFunding DAPP. Open source is v
 - IT CAN BE A WAY TO LOCK MONEY FOR A SPECIFIC TIME PERIOD
 - LEARNING AND IMPROVING MY BLOCKCHAIN SKILLS
 
-Of course, no one single project  will serve all case since your needs may be different. So I'll be adding more in the near future(and your help will be greatly appreciated). You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people who will contributed to expanding this Project!
+Of course, no one single project  will serve all case since your needs may be different. So I'll be adding more features in the near future(and your help will be greatly appreciated). You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people who will contribute to expanding this Project!!!. May The Force Be With You.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -89,7 +91,7 @@ This project was built with the following technologies( as of the time of the la
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [Firebase](https://firebase.google.com/docs)
 - [Chainlink](https://docs.chain.link/)
-
+- [Tailwindcss](https://tailwindcss.com/)
 
 
 
@@ -138,7 +140,7 @@ PRIVATE_KEY=your_private_key
 MUMBAI_RPC_URL=your_mumbai_rpc-_url
 GOERLI_RPC_URL=your_goerli_rpc-_url
 ETHERSCAN_API_KEY=your_etherscan_api_key
-UPDATE_FRONT_END=<true/false>
+UPDATE_FRONT_END=<true/false> // Update the ABI and CONTRACT-ADDRESS when deployed on the frontend.
 ```
 
 - Deploy to network e.g localhost, mumbai, goerli e.t.c
@@ -146,10 +148,15 @@ UPDATE_FRONT_END=<true/false>
 ```bash
 yarn hardhat deploy --network <name_of_network>
 ```
-- Test the Dapp which has a test coverage of more than 95%
+- Test the DApp 
 
 ```bash
 yarn hardhat test --network <name_of_network>
+```
+- Get the coverage of the DApp (>95%)
+
+```bash
+yarn hardhat coverage --network <name_of_network>
 ```
 
 ## Interact with the contract
@@ -157,7 +164,7 @@ yarn hardhat test --network <name_of_network>
 - Create a campaign:
 
 ```bash
- yarn hardhat launch --goal 100 --start-at 1668455498 --end-at 1668460778 --network <name_of_network>
+ yarn hardhat launch --name "Startup Fund" --goal 100 --start-at 1668455498 --end-at 1668460778 --network <name_of_network>
 ```
 
 - Get campaign information
@@ -193,6 +200,8 @@ This app can be used and intaract in various ways
 - [x] Create Task to interact with the contract
 - [x] Deploy the contract
 - [x] Creat a frontend for the contract
+- [x] Deploy the frontend
+- [x] Test the frontend (create campaign and test the various functions)
   
 
 See the [open issues](https://github.com/UpgradeOfficial/feducia/issues) for a full list of proposed features (and known issues).
@@ -241,8 +250,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Special acknolegment to the following people/company/organisation:
 
-- [Odeyemi Increase Ayobami](https://github.com/UpgradeOfficial/)
+- [Odeyemi Increase Ayobami](https://github.com/UpgradeOfficial/) (creator)
 - [Polygon](https://polygon.technology/)
+- Tutors/Admin and fellow students on the discord channel who were ever willing and ready to answer the never ending questions. May the force be will you all.
 
 
 

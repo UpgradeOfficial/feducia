@@ -1,6 +1,6 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
-task("totalCampaign", "get the names associated with a particular address").setAction(
+task("totalCampaign", "Get the total number of campaigns in the contract").setAction(
     async (taskArgs) => {
         const crowdFund = await ethers.getContractFactory("CrowdFundContract")
 

@@ -1,10 +1,11 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
 
-task("launch", "get the names associated with a particular address")
-.addParam("goal", "The transaction id")
-.addParam("startAt", "The transaction id")
-.addParam("endAt", "The transaction id")
+task("launch", "This is task is used to start a campaign")
+.addParam("name", "The name of the campaign")
+.addParam("goal", "How much you plan to raise in the campaign")
+.addParam("startAt", "The start time of the campaign(note: must be greater than now)")
+.addParam("endAt", "The end time of the campaign(note: the time difference must be least than the maxDuration)")
 .setAction(async (taskArgs) => {
     const goal = taskArgs.goal
     const startAt = Number(taskArgs.startAt) 

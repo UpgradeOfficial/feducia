@@ -1,9 +1,9 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
 
-task("pledge", "get the names associated with a particular address")
-.addParam("id", "The transaction id")
-.addParam("amount", "The transaction id")
+task("pledge", "This is used to pledge funds to a campaign")
+.addParam("id", "The campaign id")
+.addParam("amount", "The amount pledged")
 .setAction(async (taskArgs) => {
     const id = Number(taskArgs.id) 
     const amount = Number(taskArgs.amount) 

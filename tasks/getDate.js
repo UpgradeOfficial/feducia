@@ -1,8 +1,8 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
 //  yarn hardhat getDate --network localhost
-task("getDate", "get the names associated with a particular address")
-    .addParam("minute", "added time in minutes")
+task("getDate", "This generates a campaign with a valid time ")
+    .addParam("minute", "This will be the amount of time between start and end time of the campaign (Note The campaign start time will be two minute from the current time and the name is not included)")
     .setAction(async (taskArgs) => {
         const minute = Number(taskArgs.minute)
         let daysAdded = 10
@@ -12,11 +12,6 @@ task("getDate", "get the names associated with a particular address")
 
         const startAt = start_time_added_time
         const endAt = end_time_added_time
-
-        // console.log(`Normal Time => ${date}`)
-        // console.log(`Unix time now => ${date.valueOf()}`)
-        // console.log(`${added_time}`)
-        // console.log(`${added_time.valueOf()}`)
 
         console.log(`yarn hardhat launch --goal 100 --start-at ${startAt} --end-at ${endAt} --network localhost`)
     })

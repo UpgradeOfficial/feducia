@@ -1,8 +1,8 @@
 // This script only works with --network 'mainnet', or 'hardhat' when running a fork of mainnet
 
 
-task("getCampaign", "get the names associated with a particular address")
-.addParam("id", "The transaction id")
+task("getCampaign", "Get a campaign from the id of the campaign")
+.addParam("id", "The campaign id")
 .setAction(async (taskArgs) => {
     const id = Number(taskArgs.id) 
     const crowdFund = await ethers.getContractFactory("CrowdFundContract")
