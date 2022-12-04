@@ -64,7 +64,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://feducia.vercel.app/)
 
-Every idea's at one point in time will need to be funded. The need to making access funds and financial aid trouble-free has been the driving force for this project (<strong>FEDUCIA</strong>). We strive to make funding facile, transparent and accessible to anyone and everyone. We are dedicated to the principles of transparency, trust and security and have made the DApp in a way that this principles are meticulously coded into the protocol. We want to make sure that ideas become a reality and will try to make sure we play a role in securing both the interest of the funders and creator. Here are some reason why FEDUCIA should be you no. 1 DApp to access funding for your next project and also contribute to it success:
+Every idea's at one point in time will need to be funded. The need to make fund accessible and financial aid trouble-free has been the driving force for this project (<strong>FEDUCIA</strong>). We strive to make funding facile, transparent and accessible to anyone and everyone. We are dedicated to the principles of transparency, trust and security and have made the DApp in a way that this principles are meticulously coded into the protocol. We want to make sure that ideas become a reality and will try to make sure we play a role in securing both the interest of the funders and creator. Here are some reason why FEDUCIA should be you no. 1 DApp to access funding for your next project and also contribute to it success:
 
 
 - IT A GOOD WAY TO TEST PUBLIC ACCEPTANCE OF AN IDEA
@@ -153,7 +153,7 @@ yarn hardhat deploy --network <name_of_network>
 ```bash
 yarn hardhat test --network <name_of_network>
 ```
-- Get the coverage of the DApp (>95%)
+- Generate Coverage Report (>90%)
 
 ```bash
 yarn hardhat coverage --network <name_of_network>
@@ -251,7 +251,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Special acknolegment to the following people/company/organisation:
 
 - [Odeyemi Increase Ayobami](https://github.com/UpgradeOfficial/) (creator)
-- [Polygon](https://polygon.technology/)
+- [Polygon](https://polygon.technology/) (Layer-2 Blockchain/Organiser)
+- [Xend](https://xend.finance/) (hackathon_Host/Organiser)
 - Tutors/Admin and fellow students on the discord channel who were ever willing and ready to answer the never ending questions. May the force be will you all.
 
 
